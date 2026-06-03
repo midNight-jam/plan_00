@@ -49,32 +49,36 @@ plan_00/
 ├── README.md               ← You are here
 │
 ├── forge/                  ← AI Platform + Inference Specialist
-│   ├── MANIFEST.md
-│   ├── progress.md
+│   ├── MANIFEST.md         ← Vision, architecture, session template
+│   ├── PLAN.md             ← Full narrative plan (see .cursor/plans/ for original)
+│   ├── progress.md         ← Living checklist
 │   └── specs/
 │       ├── phase1/         Weeks 1-7: Platform Foundation (FastAPI, RAG, multi-model, deployment)
 │       ├── phase2/         Weeks 8-14: Inference Depth (transformers, batching, KV-cache, quantization)
 │       └── phase3/         Weeks 15-20: Advanced (K8s operator, Triton kernels, training, portfolio)
 │
 ├── anvil/                  ← AI Infrastructure Engineer
-│   ├── MANIFEST.md
-│   ├── progress.md
+│   ├── MANIFEST.md         ← Vision, architecture, session template
+│   ├── PLAN.md             ← Full narrative plan (see .cursor/plans/ for original)
+│   ├── progress.md         ← Living checklist
 │   └── specs/
 │       ├── phaseA/         Weeks 1-7: Distributed Systems (Raft, K8s scheduler, job orchestrator)
 │       ├── phaseB/         Weeks 8-14: Reliability (SRE, cost, security, chaos, multi-cluster)
 │       └── phaseC/         Weeks 15-20: Platform (developer platform, advanced K8s, observability)
 │
 ├── crucible/               ← Training + Alignment Engineer
-│   ├── MANIFEST.md
-│   ├── progress.md
+│   ├── MANIFEST.md         ← Vision, architecture, session template
+│   ├── PLAN.md             ← Full narrative plan with philosophy and week summaries
+│   ├── progress.md         ← Living checklist
 │   └── specs/
 │       ├── phase1/         Weeks 1-7: Training Foundations (training loop, data, LoRA, SFT, distributed)
 │       ├── phase2/         Weeks 8-14: Alignment (reward model, RLHF, DPO, Constitutional AI)
 │       └── phase3/         Weeks 15-20: Evaluation + Safety (benchmarks, red-teaming, LLM-judge)
 │
 └── conduit/                ← ML Systems Engineer (Full Lifecycle)
-    ├── MANIFEST.md
-    ├── progress.md
+    ├── MANIFEST.md         ← Vision, architecture, session template
+    ├── PLAN.md             ← Full narrative plan with philosophy and week summaries
+    ├── progress.md         ← Living checklist
     └── specs/
         ├── phase1/         Weeks 1-7: Data + Pipelines (feature store, versioning, orchestration)
         ├── phase2/         Weeks 8-14: Deployment + Monitoring (A/B testing, drift, auto-retrain)
