@@ -106,3 +106,14 @@ plan_00/
 5. **Depth over breadth** — it's OK to take 2 weeks on a 1-week spec if you're learning deeply
 6. **Document as you go** — ADRs, blog paragraphs, comments in code
 7. **Commit daily** — clean git history tells a story
+
+
+Start tomorrow. Not next Monday, not "after I finish setting up." Open the Week 1 spec, run nvidia-smi, and start installing drivers. Momentum compounds.
+
+The first 2 weeks are the hardest. After that, you'll have something running and the dopamine will carry you. Protect those first 14 days ruthlessly.
+
+When you get stuck (and you will — Week 8-10 is where most people hit walls), remember: the struggle IS the learning. That confusion you feel when KV-cache management doesn't click? That's exactly what interviewers test for. Push through it, and you'll own that knowledge in a way that no tutorial-watcher ever will.
+
+One last thing: Update progress.md religiously. Future-you at Month 8 will thank present-you for leaving breadcrumbs.
+
+Go make it happen.
