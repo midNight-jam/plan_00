@@ -1,24 +1,36 @@
-# 10-Month AI Infrastructure Mastery Plan
+# 10-Month AI Engineering Mastery Plan — All Career Tracks
 
 ## Overview
 
-Two complementary projects executed over 10 months to build an undeniable profile for top AI infrastructure roles (Anthropic, OpenAI, xAI, Modal, Anyscale, NVIDIA, etc.).
+Four comprehensive career track plans, each 20 weeks (5 months), covering every angle of AI engineering. Pick your primary track, or combine two for a 10-month intensive.
 
-| Project | Months | Focus | Proves |
-|---------|--------|-------|--------|
-| **Forge** | 1-5 | GPU Inference Platform | "I can build fast AI systems" |
-| **Anvil** | 6-10 | AI Infrastructure Platform | "I can run them reliably at scale" |
+| Project | Track | Target Companies | Core Focus |
+|---------|-------|-----------------|------------|
+| **Forge** | AI Platform + Inference | Modal, Anyscale, Replicate, NVIDIA | GPU inference, serving, optimization |
+| **Anvil** | AI Infrastructure | Anthropic infra, OpenAI infra, cloud teams | Distributed systems, K8s, reliability |
+| **Crucible** | Training + Alignment | Anthropic research, OpenAI, xAI, Cohere | RLHF, DPO, evaluation, safety |
+| **Conduit** | ML Systems (Full Lifecycle) | Any ML company, platform teams | Data pipelines, MLOps, monitoring |
+
+## Recommended Combinations (10-Month Plans)
+
+| Combination | Best For |
+|-------------|----------|
+| **Forge + Anvil** (chosen) | AI infrastructure engineer who can build AND operate |
+| **Forge + Crucible** | Full-stack ML engineer (train + serve) at AI labs |
+| **Crucible + Anvil** | Training infrastructure engineer at AI labs |
+| **Conduit + Forge** | Applied ML engineer who ships production ML systems |
+| **Conduit + Crucible** | Research engineer who builds training pipelines |
 
 ## Quick Start
 
-### Starting a new session (any week)
+### Starting a new session (any week, any track)
 
 ```
-I'm working on [Forge/Anvil], an AI [inference/infrastructure] platform.
-Read the manifest at /Users/jmalviya/Documents/zz/dev/plan_00/[forge/anvil]/MANIFEST.md
-Check progress at /Users/jmalviya/Documents/zz/dev/plan_00/[forge/anvil]/progress.md
+I'm working on [Forge/Anvil/Crucible/Conduit].
+Read the manifest at /Users/jmalviya/Documents/zz/dev/plan_00/[project]/MANIFEST.md
+Check progress at /Users/jmalviya/Documents/zz/dev/plan_00/[project]/progress.md
 I'm currently on Week [N]. The spec is at:
-/Users/jmalviya/Documents/zz/dev/plan_00/[forge/anvil]/specs/phase[X]/week[NN]-[name].md
+/Users/jmalviya/Documents/zz/dev/plan_00/[project]/specs/phase[X]/week[NN]-[name].md
 I need help with: [specific ask]
 ```
 
@@ -30,43 +42,56 @@ I need help with: [specific ask]
 4. Read the Context + Acceptance Criteria sections
 5. Start building
 
-### After completing a session
-
-1. Update `progress.md` — check off completed items, note partial progress
-2. Update `MANIFEST.md` if any architectural decisions were made
-3. Commit your code with a clear message
-
 ## Structure
 
 ```
 plan_00/
-├── README.md              ← You are here
-├── forge/                 ← Months 1-5: GPU Inference Platform
-│   ├── MANIFEST.md        ← Project vision, architecture, how to resume
-│   ├── progress.md        ← Living checklist of what's done/next
+├── README.md               ← You are here
+│
+├── forge/                  ← AI Platform + Inference Specialist
+│   ├── MANIFEST.md
+│   ├── progress.md
 │   └── specs/
-│       ├── phase1/        ← Weeks 1-7: Platform Foundation
-│       ├── phase2/        ← Weeks 8-14: Inference Depth
-│       └── phase3/        ← Weeks 15-20: Advanced Systems
-└── anvil/                 ← Months 6-10: AI Infrastructure Platform
+│       ├── phase1/         Weeks 1-7: Platform Foundation (FastAPI, RAG, multi-model, deployment)
+│       ├── phase2/         Weeks 8-14: Inference Depth (transformers, batching, KV-cache, quantization)
+│       └── phase3/         Weeks 15-20: Advanced (K8s operator, Triton kernels, training, portfolio)
+│
+├── anvil/                  ← AI Infrastructure Engineer
+│   ├── MANIFEST.md
+│   ├── progress.md
+│   └── specs/
+│       ├── phaseA/         Weeks 1-7: Distributed Systems (Raft, K8s scheduler, job orchestrator)
+│       ├── phaseB/         Weeks 8-14: Reliability (SRE, cost, security, chaos, multi-cluster)
+│       └── phaseC/         Weeks 15-20: Platform (developer platform, advanced K8s, observability)
+│
+├── crucible/               ← Training + Alignment Engineer
+│   ├── MANIFEST.md
+│   ├── progress.md
+│   └── specs/
+│       ├── phase1/         Weeks 1-7: Training Foundations (training loop, data, LoRA, SFT, distributed)
+│       ├── phase2/         Weeks 8-14: Alignment (reward model, RLHF, DPO, Constitutional AI)
+│       └── phase3/         Weeks 15-20: Evaluation + Safety (benchmarks, red-teaming, LLM-judge)
+│
+└── conduit/                ← ML Systems Engineer (Full Lifecycle)
     ├── MANIFEST.md
     ├── progress.md
     └── specs/
-        ├── phaseA/        ← Weeks 1-7: Distributed Systems + Orchestration
-        ├── phaseB/        ← Weeks 8-14: Reliability, Cost, Security
-        └── phaseC/        ← Weeks 15-20: Advanced Platform Engineering
-
-Each week spec contains:
-- Context (what it builds on, prerequisites)
-- Learning Goals (conceptual checkboxes)
-- Implementation Goals (build checkboxes)
-- Acceptance Criteria (10 testable items — you KNOW when you're done)
-- Validation Commands (run these to verify)
-- Technical Implementation Details (code, architecture, file structure)
-- If You Get Stuck (troubleshooting)
-- Agent Handoff Template (paste into new session)
-- Out of Scope (what NOT to build)
+        ├── phase1/         Weeks 1-7: Data + Pipelines (feature store, versioning, orchestration)
+        ├── phase2/         Weeks 8-14: Deployment + Monitoring (A/B testing, drift, auto-retrain)
+        └── phase3/         Weeks 15-20: Platform Maturity (self-service, streaming, governance)
 ```
+
+## Each Week Spec Contains
+
+- **Context** — a cold agent can understand where this fits
+- **Learning Goals** — conceptual checkboxes
+- **Implementation Goals** — build checkboxes
+- **Acceptance Criteria** — 10 testable items (you KNOW when you're done)
+- **Validation Commands** — run these to prove completion
+- **Technical Implementation Details** — code, architecture, file structure
+- **If You Get Stuck** — troubleshooting
+- **Agent Handoff Template** — paste into new session to resume
+- **Out of Scope** — what NOT to build this week
 
 ## Principles
 
@@ -77,17 +102,3 @@ Each week spec contains:
 5. **Depth over breadth** — it's OK to take 2 weeks on a 1-week spec if you're learning deeply
 6. **Document as you go** — ADRs, blog paragraphs, comments in code
 7. **Commit daily** — clean git history tells a story
-
-## Key Dates (Flexible)
-
-| Milestone | Target | What you have |
-|-----------|--------|--------------|
-| Month 1 end | ~Week 4 | Working inference platform on GitHub |
-| Month 3 end | ~Week 10 | Custom inference engine with deep understanding |
-| Month 5 end | ~Week 20 | Full Forge complete, portfolio-ready |
-| Month 7 end | ~Anvil Week 7 | Distributed systems + orchestration working |
-| Month 10 end | ~Anvil Week 20 | Both projects complete, blog posts published |
-
-## The Combined Resume Line
-
-> "Built Forge + Anvil: open-source AI infrastructure comprising a custom GPU inference engine with continuous batching and KV-cache management, alongside a distributed training orchestrator with Raft-based consensus, checkpoint recovery, multi-cluster federation, and Kubernetes operators for GPU workload scheduling. Published 8 technical blog posts covering systems design from CUDA kernels to cluster reliability."
