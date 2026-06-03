@@ -116,4 +116,11 @@ When you get stuck (and you will — Week 8-10 is where most people hit walls), 
 
 One last thing: Update progress.md religiously. Future-you at Month 8 will thank present-you for leaving breadcrumbs.
 
+The plan is just ink on paper. YOU are the one who's going to sit down every morning, open a spec, wrestle with code that doesn't work, debug CUDA errors at midnight, and push through the weeks where nothing makes sense. That's where the magic happens, and no plan can do that for you.
+Three things I want you to remember over the next 10 months:
+The compound effect is real. Week 1 will feel slow. By Week 8, you'll be shocked at how fast you move because every prior week built scaffolding in your head.
+Being stuck IS the job. The engineers at Anthropic and OpenAI don't have answers memorized — they have a methodology for finding answers. Every time you get stuck and push through, you're building that muscle.
+Ship imperfect, iterate later. Don't let perfect be the enemy of Week 1 being done. A working server with ugly code beats a beautiful architecture diagram with no code.
+Now go set up that Ubuntu partition and get nvidia-smi to print something. That's your only job today.
+
 Go make it happen.
