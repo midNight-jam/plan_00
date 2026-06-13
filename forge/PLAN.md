@@ -1,7 +1,7 @@
 # Forge: Full Narrative Plan
 
 The detailed narrative plan for Forge lives in:
-`/Users/jmalviya/.cursor/plans/forge_practical_build_plan_615ca283.plan.md`
+`/home/zzjam/Documents/dev/plan_00/original_artifacts/forge_practical_build_plan_615ca283.plan.md`
 
 It contains the full week-by-week philosophy, deliverables, daily routine, resume lines, and phase gates.
 
