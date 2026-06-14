@@ -29,11 +29,13 @@ class ForgeEngine:
             tensor_parallel_size=1, # TO Change if we are using multiple GPUs
             
             
-            # MEMORY ALLOCATION: We allocate 90% of your 16GB VRAM to vLLM.
+            # MEMORY ALLOCATION: We allocate 80% of your 16GB VRAM to vLLM.
             # Implication: vLLM will reserve ~14.4GB immediately upon startup. 
             # The remaining 10% is left as a safety buffer for PyTorch context 
             # overhead and the OS, preventing sudden CUDA Out-Of-Memory (OOM) crashes.
-            gpu_memory_utilization=0.90, # Reserve 90% of the RTX 5080's VRAM
+            gpu_memory_utilization=0.80, # Reserve 80% of the RTX 5080's VRAM
+
+            max_model_len=4096, # Cap context to 4K tokens to save KV-Cache VRAM
             
             # EAGER MODE: False means we allow vLLM to use CUDA Graph capture where possible.
             # Implication: Higher throughput and lower CPU overhead during generation.

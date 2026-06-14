@@ -12,7 +12,9 @@ app = FastAPI(title="zzForge Inference Server")
 
 # INITIALIZATION :  instantiates the engine globally so it loads the model weights 
 # into VRAM once upon server startup, rather than on every request.
-MODEL_NAME = os.getenv("MODEL_NAME", "meta-llama/Meta-Llama-3-8B-Instruct")
+# MODEL_NAME = os.getenv("MODEL_NAME", "meta-llama/Meta-Llama-3-8B-Instruct")
+# MODEL_NAME = os.getenv("MODEL_NAME", "Qwen/Qwen2.5-7B-Instruct") # this failed to loadin gpu :(, thus going for AWQ
+MODEL_NAME = os.getenv("MODEL_NAME", "Qwen2.5-7B-Instruct-AWQ")
 engine = ForgeEngine(model_name=MODEL_NAME)
 
 
