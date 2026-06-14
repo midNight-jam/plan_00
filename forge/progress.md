@@ -1,8 +1,9 @@
 # Forge Progress Tracker
 
-> Last updated: [UPDATE THIS DATE WHEN YOU MODIFY]
+> Last updated: 2026-06-13
 > Current Phase: Phase 1
 > Current Week: Week 1
+> Week 1 status: environment + scaffolding complete (Component 1); next is Component 2 (FastAPI server).
 
 ## Phase 1: Platform Foundation (Weeks 1-7)
 
@@ -35,16 +36,18 @@
 
 | Week | Date Started | Date Completed | Notes |
 |------|-------------|----------------|-------|
-| | | | |
+| 1 | 2026-06-13 | (in progress) | Env setup done: CUDA/nvcc, nvidia-container-toolkit, uv deps installed. Code stubs scaffolded, not yet implemented. |
 
 ## Decisions Made
 
 | # | Decision | Date | Rationale |
 |---|----------|------|-----------|
-| | | | |
+| 1 | Python 3.14 (spec said 3.11+) | 2026-06-13 | Latest toolchain; pinned in `.python-version` / `pyproject.toml`. |
+| 2 | `uv` for dependency management | 2026-06-13 | Fast, reproducible; project convention (CLAUDE.md). |
+| 3 | vLLM 0.22.x as inference backend | 2026-06-13 | Reference engine for Phase 1 before custom engine in Phase 2. |
 
 ## Blockers / Issues
 
 | Issue | Week | Status | Resolution |
 |-------|------|--------|------------|
-| | | | |
+| RTX 5080 is Blackwell (sm_120) — confirm installed vLLM/PyTorch CUDA build supports it | 1 | Watch | Validate at first model load; fall back to `transformers`+`accelerate` if vLLM won't load (per spec). |
