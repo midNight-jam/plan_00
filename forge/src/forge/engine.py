@@ -4,6 +4,7 @@ from vllm.engine.arg_utils import AsyncEngineArgs
 from vllm.engine.async_llm_engine import AsyncLLMEngine
 from vllm.sampling_params import SamplingParams
 from vllm.utils import random_uuid
+from transformers import AutoTokenizer
 
 from .models import ChatCompletionRequest
 
@@ -45,8 +46,37 @@ class ForgeEngine:
         # Initialize the asynchronous engine. 
         # By using AsyncLLMEngine, the event loop isn't blocked while the GPU computes.
         self.engine = AsyncLLMEngine.from_engine_args(engine_args)
+
+        # Load the tokenizer explicitly for prompt formatting
+        self.tokenizer = AutoTokenizer.from_pretrained(self.model_name)
     
+
+
     async def generate(self, request: ChatCompletionRequest) -> AsyncGenerator[str, None]:
+        # 1. Convert Pydantic objects into standard dictionaries
+        messages_dict = [{"role": m.role, "content": m.content} for m in request.messages]
+
+        # 2. Apply the correct Chat Template (Replaces the naive string join)
+        prompt = self.tokenizer.apply_chat_template(
+            messages_dict,
+            tokenize=False, 
+            add_generation_prompt=True
+        )
+
+        sampling_params = SamplingParams(
+            temperature=request.temperature,
+            max_tokens=request.max_tokens,
+        ) 
+
+        # 3. Generate Request ID
+        request_id = random_uuid()
+
+        results_generator = self.engine.generate(prompt, sampling_params, request_id)
+
+        async for request_output in results_generator:
+            yield request_output.outputs[0].text
+
+    async def generate_DEPRECATED(self, request: ChatCompletionRequest) -> AsyncGenerator[str, None]:
         # Convert Open AI format messages into a single prompt string
         """
         Takes a validated Pydantic request, formats the prompt, and yields tokens.

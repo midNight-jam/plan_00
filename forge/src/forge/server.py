@@ -6,6 +6,9 @@ from .models import (
     ChatCompletionResponseChoice,
     ChatMessage
 )
+import uuid
+from fastapi import Request, HTTPException
+from vllm import SamplingParams
 from .engine import ForgeEngine
 
 app = FastAPI(title="zzForge Inference Server")
@@ -19,28 +22,51 @@ engine = ForgeEngine(model_name=MODEL_NAME)
 
 
 @app.post("/v1/chat/completions", response_model=ChatCompletionResponse)
-async def chat_completions(request: ChatCompletionRequest):
+async def chat_completions(request: ChatCompletionRequest): # Using Pydantic model
     try:
-        final_text = ""
 
-        # CONTINUOS BATCHING: We await the generator.
-        # vLLM yields the full accumulated text on every single iteration.
-        # For this Standard (non-streaming) endpoint, we overwrite the variable
-        # untill the loop finishes, capturing only the final, complete string.
-        async for text in engine.generate(request):
-            final_text = text
+        #. Send the validated Pydantic model to the vLLM engine
+        results_generator = engine.generate(request)
+        
+        # 6. Await the final result (for non-streaming)
+        generated_text = ""
+        final_output = None
+        async for text in results_generator:
+            generated_text = text # engine.py yields the text string directly
+            
+        
+        return {
+            "id": f"chat-{uuid.uuid4()}",
+            "object": "chat.completion",
+            "model": request.model,
+            "choices": [{
+                "index": 0,
+                "message": {
+                    "role": "assistant",
+                    "content": generated_text
+                },
+                "finish_reason": "stop"
+            }]
+        }
 
-        # Formatting: Pack the raw string back into the strict OpenAI Pydantic schema
-        choice = ChatCompletionResponseChoice(
-            index = 0,
-            message=ChatMessage(role="assistant", content=final_text),
-            finish_reason="stop"
-        )
+        # # CONTINUOS BATCHING: We await the generator.
+        # # vLLM yields the full accumulated text on every single iteration.
+        # # For this Standard (non-streaming) endpoint, we overwrite the variable
+        # # untill the loop finishes, capturing only the final, complete string.
+        # async for text in engine.generate(request):
+        #     final_text = text
 
-        return ChatCompletionResponse(
-            model=request.model,
-            choices=[choice]
-        )
+        # # Formatting: Pack the raw string back into the strict OpenAI Pydantic schema
+        # choice = ChatCompletionResponseChoice(
+        #     index = 0,
+        #     message=ChatMessage(role="assistant", content=final_text),
+        #     finish_reason="stop"
+        # )
+
+        # return ChatCompletionResponse(
+        #     model=request.model,
+        #     choices=[choice]
+        # )
     
     except Exception as e:
         # SAFETY: Catch vLLM crashes (like OOM errors) and surface them cleanlu
