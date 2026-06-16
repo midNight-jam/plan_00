@@ -1,9 +1,9 @@
 # Forge Progress Tracker
 
-> Last updated: 2026-06-13
+> Last updated: 2026-06-15
 > Current Phase: Phase 1
 > Current Week: Week 1
-> Week 1 status: environment + scaffolding complete (Component 1); next is Component 2 (FastAPI server).
+> Week 1 status: Components 1-2 done (env + FastAPI server + vLLM running); next is Components 3-6 (config, DB logging, Docker, tests).
 
 ## Phase 1: Platform Foundation (Weeks 1-7)
 
@@ -36,7 +36,7 @@
 
 | Week | Date Started | Date Completed | Notes |
 |------|-------------|----------------|-------|
-| 1 | 2026-06-13 | (in progress) | Env setup done: CUDA/nvcc, nvidia-container-toolkit, uv deps installed. Code stubs scaffolded, not yet implemented. |
+| 1 | 2026-06-13 | (in progress) | Env done. FastAPI server live. vLLM running Qwen2.5-7B-Instruct-AWQ. `/v1/chat/completions` responds to prompts with `apply_chat_template`. Remaining: /health, /v1/models, SSE streaming, db.py, config.py, docker-compose, integration tests. |
 
 ## Decisions Made
 
@@ -45,9 +45,12 @@
 | 1 | Python 3.14 (spec said 3.11+) | 2026-06-13 | Latest toolchain; pinned in `.python-version` / `pyproject.toml`. |
 | 2 | `uv` for dependency management | 2026-06-13 | Fast, reproducible; project convention (CLAUDE.md). |
 | 3 | vLLM 0.22.x as inference backend | 2026-06-13 | Reference engine for Phase 1 before custom engine in Phase 2. |
+| 4 | Model: Qwen2.5-7B-Instruct-AWQ | 2026-06-13 | Llama-3-8B needs HuggingFace token (gated). Qwen2.5-7B (fp16) failed GPU load. AWQ variant loads cleanly on RTX 5080 within 16GB VRAM. |
+| 5 | `apply_chat_template` for prompt formatting | 2026-06-13 | Replaced naive string-join prompt with HuggingFace tokenizer template. Required for correct instruction-following behavior. |
 
 ## Blockers / Issues
 
 | Issue | Week | Status | Resolution |
 |-------|------|--------|------------|
-| RTX 5080 is Blackwell (sm_120) — confirm installed vLLM/PyTorch CUDA build supports it | 1 | Watch | Validate at first model load; fall back to `transformers`+`accelerate` if vLLM won't load (per spec). |
+| RTX 5080 is Blackwell (sm_120) — confirm vLLM/PyTorch CUDA build supports it | 1 | Resolved | vLLM loads Qwen2.5-7B-Instruct-AWQ successfully on RTX 5080. CUDA build confirmed working. |
+| Gated models require HuggingFace token | 1 | Resolved | Switched to Qwen2.5-7B-Instruct-AWQ (Apache 2.0, no token needed) instead of Llama. |
