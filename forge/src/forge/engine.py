@@ -55,10 +55,22 @@ class ForgeEngine:
     
     async def stream_chat(self, request: ChatCompletionRequest) -> AsyncGenerator[str, None]:
         messages_dict = [{"role": m.role, "content": m.content} for m in request.messages]
+        
+        """
+        If we just sent the model a raw JSON array like [{"role": "user", "content": "Hello"}], the model would literally try to predict the next JSON bracket.
+
+        To make a model act like a chatbot, the creators (Alibaba for Qwen) fine-tuned the model to respond to a highly specific script format. Qwen uses a format called "ChatML". apply_chat_template takes nice list of JSON messages and automatically injects the exact hidden tokens the model expects.
+
+        It turns this:
+        [{"role": "user", "content": "Hello"}]
+
+        Into this string:
+        <|im_start|>system\nYou are a helpful assistant.<|im_end|>\n<|im_start|>user\nHello<|im_end|>\n
+        """
         prompt = self.tokenizer.apply_chat_template(
             messages_dict,
-            tokenize = False,
-            add_generation_prompt=True
+            tokenize = False, # give me back a readable string, not raw integer ids
+            add_generation_prompt=True # It appends <|im_start|>assistant\n to the very end of the string. Without this the AI might hallucinate and just start generating more user messages!
         )
         
         sampling_params = SamplingParams(
