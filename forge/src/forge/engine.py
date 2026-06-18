@@ -1,4 +1,7 @@
 import asyncio
+import json
+import uuid
+
 from typing import AsyncGenerator
 from vllm.engine.arg_utils import AsyncEngineArgs
 from vllm.engine.async_llm_engine import AsyncLLMEngine
@@ -50,6 +53,49 @@ class ForgeEngine:
         # Load the tokenizer explicitly for prompt formatting
         self.tokenizer = AutoTokenizer.from_pretrained(self.model_name)
     
+    async def stream_chat(self, request: ChatCompletionRequest) -> AsyncGenerator[str, None]:
+        messages_dict = [{"role": m.role, "content": m.content} for m in request.messages]
+        prompt = self.tokenizer.apply_chat_template(
+            messages_dict,
+            tokenize = False,
+            add_generation_prompt=True
+        )
+        
+        sampling_params = SamplingParams(
+            temperature=request.temperature,
+            max_tokens=request.max_tokens,
+        )
+
+        request_id = f"chatcmpl-{uuid.uuid4().hex}"
+        generator = self.engine.generate(prompt, sampling_params, request_id)
+        
+        # 2. Track text to calculate deltas
+        previous_text = ""
+
+        async for request_output in generator:
+            # Extract only the newly generated characters
+            current_text = request_output.outputs[0].text
+            new_text = current_text[len(previous_text):]
+            previous_text = current_text
+            
+            # 3. Pack into the OpenAI streaming chunk schema
+            chunk = {
+                "id": request_id,
+                "object": "chat.completion.chunk",
+                "model": request.model or "forge-model",
+                "choices": [{
+                    "index": 0,
+                    "delta": {"content": new_text}
+                }]
+            }
+            
+            # SSE requirement: "data: {json_string}\n\n"
+            yield f"data: {json.dumps(chunk)}\n\n"
+            
+        # 4. Signal that the stream is complete
+        yield "data: [DONE]\n\n"
+
+
 
 
     async def generate(self, request: ChatCompletionRequest) -> AsyncGenerator[str, None]:

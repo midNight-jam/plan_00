@@ -8,6 +8,7 @@ from .models import (
 )
 import uuid
 from fastapi import Request, HTTPException
+from fastapi.responses import StreamingResponse
 from vllm import SamplingParams
 from .engine import ForgeEngine
 
@@ -17,13 +18,22 @@ app = FastAPI(title="zzForge Inference Server")
 # into VRAM once upon server startup, rather than on every request.
 # MODEL_NAME = os.getenv("MODEL_NAME", "meta-llama/Meta-Llama-3-8B-Instruct")
 # MODEL_NAME = os.getenv("MODEL_NAME", "Qwen/Qwen2.5-7B-Instruct") # this failed to loadin gpu :(, thus going for AWQ
-MODEL_NAME = os.getenv("MODEL_NAME", "Qwen2.5-7B-Instruct-AWQ")
+MODEL_NAME = os.getenv("MODEL_NAME", "Qwen/Qwen2.5-7B-Instruct-AWQ")
 engine = ForgeEngine(model_name=MODEL_NAME)
 
 
 @app.post("/v1/chat/completions", response_model=ChatCompletionResponse)
 async def chat_completions(request: ChatCompletionRequest): # Using Pydantic model
     try:
+
+        # Route to the streaming generator if requested
+        if request.stream:
+            return StreamingResponse(
+                engine.stream_chat(request),
+                media_type="text/event-stream"
+            )
+            
+        # Otherwise, fall back to your existing non-streaming logic
 
         #. Send the validated Pydantic model to the vLLM engine
         results_generator = engine.generate(request)
