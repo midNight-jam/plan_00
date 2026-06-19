@@ -12,7 +12,9 @@ from .models import (
     ChatCompletionResponse, 
     ChatCompletionResponseChoice,
     ChatMessage,
-    HealthResponse
+    HealthResponse,
+    ModelCard,
+    ModelListResponse
 )
 from .database import init_db, AsyncSessionLocal, RequestLog
 # from fastapi import Request, HTTPException
@@ -131,6 +133,18 @@ async def health_check():
         from fastapi import HTTPException
         raise HTTPException(status_code=503, detail=f"Engine unhealthy: {str(e)}")
 
+@app.get("/v1/models", response_model=ModelListResponse)
+async def list_models():
+    """Returns the list of currently loaded models."""
+    return ModelListResponse(
+        data=[
+            ModelCard(
+                id=MODEL_NAME,
+                created=int(time.time()),
+                owned_by="forge-local"
+            )
+        ]
+    )
 
 async def log_request_to_db(model_name: str, prompt: str, start_time: float):
     end_time = time.time()

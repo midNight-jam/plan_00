@@ -1,9 +1,9 @@
 # Forge Progress Tracker
 
-> Last updated: 2026-06-17
+> Last updated: 2026-06-18
 > Current Phase: Phase 1
 > Current Week: Week 1
-> Week 1 status: Components 1-2 mostly done (env + FastAPI server + vLLM + streaming); next is Components 3-6 (config, DB logging, Docker, pytest tests).
+> Week 1 status: 9/10 ACs done. Only remaining: pytest-format integration tests (AC #9).
 
 ## Phase 1: Platform Foundation (Weeks 1-7)
 
@@ -36,7 +36,7 @@
 
 | Week | Date Started | Date Completed | Notes |
 |------|-------------|----------------|-------|
-| 1 | 2026-06-13 | (in progress) | Env done. FastAPI server live. vLLM running Qwen2.5-7B-Instruct-AWQ. `/v1/chat/completions` non-streaming + SSE streaming both implemented. `engine.stream_chat()` yields OpenAI-format delta chunks. Manual streaming test script in `tests/integration/`. Remaining: /health, /v1/models, config.py, db.py, docker-compose, pytest-format integration tests. |
+| 1 | 2026-06-13 | (in progress) | 9/10 ACs done. Full stack live: vLLM (Qwen2.5-7B-Instruct-AWQ) + FastAPI (non-streaming + SSE streaming) + `/health` + `/v1/models` + DB logging (`database.py`, async SQLAlchemy, `request_logs` table auto-created via lifespan `init_db()`, fire-and-forget via BackgroundTasks) + config.yaml wired + Docker (GPU passthrough, HF cache mount, postgres:15). Logs confirmed landing in Postgres. Only remaining: pytest-format integration tests (AC #9). |
 
 ## Decisions Made
 

@@ -37,3 +37,13 @@ class HealthResponse(BaseModel):
     status: str
     model: str
     version: str = "0.1.0"
+
+class ModelCard(BaseModel):
+    id: str
+    object: str = "model"
+    created: int = 1686935002
+    owned_by: str = "forge"
+
+class ModelListResponse(BaseModel):
+    object: str = "list"
+    data: List[ModelCard]
