@@ -1,0 +1,39 @@
+services:
+  api:
+    build: .
+    container_name: forge-api
+    ports:
+      - "8000:8000"
+    volumes:
+      # CRITICAL: Mount local HuggingFace cache into the container
+      # This prevents the container from re-downloading the model weights every restart!
+      - ~/.cache/huggingface:/root/.cache/huggingface
+      
+      # Mount the config file so you can swap models without rebuilding the container
+      - ./config.yaml:/app/config.yaml
+      
+    # CRITICAL: NVIDIA Hardware Passthrough
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    depends_on:
+      - db
+
+  db:
+    image: postgres:15-alpine
+    container_name: forge-db
+    environment:
+      POSTGRES_USER: forge
+      POSTGRES_PASSWORD: forgepassword
+      POSTGRES_DB: forgedb
+    ports:
+      - "5432:5432"
+    volumes:
+      - forge_db_data:/var/lib/postgresql/data
+
+volumes:
+  forge_db_data:
