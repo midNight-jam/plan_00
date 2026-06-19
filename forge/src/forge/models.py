@@ -32,3 +32,8 @@ class ChatCompletionResponse(BaseModel):
     model: str
     choices: List[ChatCompletionResponseChoice]
     usage: Optional[Dict[str, int]] = None
+
+class HealthResponse(BaseModel):
+    status: str
+    model: str
+    version: str = "0.1.0"

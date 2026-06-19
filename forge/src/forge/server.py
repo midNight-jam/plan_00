@@ -4,13 +4,15 @@ from .models import (
     ChatCompletionRequest, 
     ChatCompletionResponse, 
     ChatCompletionResponseChoice,
-    ChatMessage
+    ChatMessage,
+    HealthResponse
 )
 import uuid
 from fastapi import Request, HTTPException
 from fastapi.responses import StreamingResponse
 from vllm import SamplingParams
 from .engine import ForgeEngine
+from .config import settings
 
 app = FastAPI(title="zzForge Inference Server")
 
@@ -18,7 +20,8 @@ app = FastAPI(title="zzForge Inference Server")
 # into VRAM once upon server startup, rather than on every request.
 # MODEL_NAME = os.getenv("MODEL_NAME", "meta-llama/Meta-Llama-3-8B-Instruct")
 # MODEL_NAME = os.getenv("MODEL_NAME", "Qwen/Qwen2.5-7B-Instruct") # this failed to loadin gpu :(, thus going for AWQ
-MODEL_NAME = os.getenv("MODEL_NAME", "Qwen/Qwen2.5-7B-Instruct-AWQ")
+# MODEL_NAME = os.getenv("MODEL_NAME", "Qwen/Qwen2.5-7B-Instruct-AWQ")
+MODEL_NAME = settings["model"]["name"]
 engine = ForgeEngine(model_name=MODEL_NAME)
 
 
@@ -81,3 +84,21 @@ async def chat_completions(request: ChatCompletionRequest): # Using Pydantic mod
     except Exception as e:
         # SAFETY: Catch vLLM crashes (like OOM errors) and surface them cleanlu
         raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.get("/health", response_model=HealthResponse)
+async def health_check():
+    try:
+        # In modern versions of vLLM, the AsyncLLMEngine has a check_health() method.
+        # It will raise an exception if the background GPU worker thread crashed (e.g., CUDA OOM).
+        if hasattr(engine.engine, "check_health"):
+            engine.engine.check_health()
+            
+        return HealthResponse(
+            status="healthy",
+            model=MODEL_NAME
+        )
+    except Exception as e:
+        # If the GPU worker died, we throw a 503 Service Unavailable
+        from fastapi import HTTPException
+        raise HTTPException(status_code=503, detail=f"Engine unhealthy: {str(e)}")

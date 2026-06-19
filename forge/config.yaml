@@ -1,0 +1,11 @@
+server:
+  host: "0.0.0.0"
+  port: 8080
+
+model:
+  # The HuggingFace repository ID or local path
+  name: "Qwen/Qwen2.5-7B-Instruct-AWQ"
+  
+  # vLLM Engine Parameters
+  gpu_memory_utilization: 0.85
+  max_model_len: 4096
